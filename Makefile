@@ -3,12 +3,13 @@ EXEC=game
 
 GAME_FOLDER=./Game
 PLAYER_FOLDER=./Player
+ENTITY_FOLDER=./Entity
 
 FLAGS="-std=c++11"
 SFML_FLAGS=-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
-$(EXEC): main.o game.o player.o
-	$(CC) main.o game.o player.o $(FLAGS) $(SFML_FLAGS) -g -o $(EXEC) 
+$(EXEC): main.o game.o player.o background.o
+	$(CC) main.o game.o player.o background.o $(FLAGS) $(SFML_FLAGS) -g -o $(EXEC) 
 
 main.o: main.cpp
 	$(CC) $(FLAGS) -c -g main.cpp
@@ -18,6 +19,9 @@ game.o: $(GAME_FOLDER)/game.cpp
 
 player.o: $(PLAYER_FOLDER)/player.cpp
 	$(CC) $(FLAGS) -c -g $(PLAYER_FOLDER)/player.cpp
+
+background.o: $(ENTITY_FOLDER)/background.cpp
+	$(CC) $(FLAGS) -c -g $(ENTITY_FOLDER)/background.cpp
 
 clean:
 	rm *.o $(EXEC)

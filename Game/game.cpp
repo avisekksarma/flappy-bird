@@ -1,6 +1,6 @@
 #include "game.hpp"
 
-Game::Game() : mWindowSize(1000, 800), mWindow(sf::VideoMode(mWindowSize.x, mWindowSize.y), "Flappy-Bird") {}
+Game::Game() : mWindowSize(1000, 800), mWindow(sf::VideoMode(mWindowSize.x, mWindowSize.y), "Flappy-Bird"),mBg(mWindowSize){}
 Game::~Game() {}
 void Game::run()
 {
@@ -27,6 +27,9 @@ void Game::update(float dt) {}
 void Game::render()
 {
     mWindow.clear(sf::Color::Cyan);
-    // mWindow.draw();
+    std::vector<sf::Sprite> bg = mBg.getBackground();
+    for (int i = 0;i<bg.size();i++){
+        mWindow.draw(bg[i]);
+    }
     mWindow.display();
 }
