@@ -11,7 +11,8 @@ Background::Background(const sf::Vector2u &mWindowSize)
 
 Background::~Background() {}
 
-//FIXME: i think constantly making and destroying vector could be inefficient 
+//FIXME: i think constantly making and destroying vector could be inefficient
+//DEPRECATED
 std::vector<sf::Sprite> Background::getBackground()
 {
     std::vector<sf::Sprite> bg;
@@ -86,4 +87,11 @@ void Background::makeSprites(const sf::Vector2u &mWindowSize)
     mSpriteMap[BASE].setTexture(mTextureMap[BASE]);
     mSpriteMap[BASE].setPosition(0, mTextureMap[DAY_BG].getSize().y * mSpriteMap[DAY_BG].getScale().y);
     mSpriteMap[BASE].setScale(float(mWindowSize.x) / mTextureMap[BASE].getSize().x, 1.0f);
+
+}
+
+void Background::draw(sf::RenderTarget &target, sf::RenderStates states) const
+{
+    target.draw(mSpriteMap.at(DAY_BG), states);
+    target.draw(mSpriteMap.at(BASE), states);
 }

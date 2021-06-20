@@ -27,9 +27,6 @@ void Game::update(float dt) {}
 void Game::render()
 {
     mWindow.clear(sf::Color::Cyan);
-    std::vector<sf::Sprite> bg = mBg.getBackground();
-    for (int i = 0;i<bg.size();i++){
-        mWindow.draw(bg[i]);
-    }
+    mWindow.draw(mBg);
     mWindow.display();
 }
