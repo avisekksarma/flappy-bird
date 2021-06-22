@@ -37,7 +37,7 @@ private:
 
     const sf::Vector2u &mWindowSize;
 
-    // Obstacle mObs;
+    Obstacle mObs;
 };
 
 #endif

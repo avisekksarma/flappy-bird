@@ -3,13 +3,13 @@
 #include <utility>
 
 Background::Background(const sf::Vector2u &windowSize)
-:mWindowSize(windowSize)
-//  mObs(windowSize)
+:mWindowSize(windowSize),
+ mObs(windowSize)
  {
     loadTextures();
     makeSprites(mWindowSize);
     mCurrBGSprite = mSpriteMap[NIGHT_BG];
-    // mObs.createNewObstacle(mTextureMap[BASE].getSize().y);
+    mObs.createNewObstacle(mTextureMap[BASE].getSize().y);
 }
 
 Background::~Background() {}
@@ -97,6 +97,6 @@ void Background::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     target.draw(mSpriteMap.at(DAY_BG), states);
     target.draw(mSpriteMap.at(BASE), states);
-    // target.draw(mObs,states);
+    target.draw(mObs,states);
     
 }

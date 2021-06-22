@@ -27,7 +27,7 @@ private:
         NINV,
         INV
     };
-    std::map<Obstacle::PipeType, sf::Texture> mObsTexture = {
+    std::map<Obstacle::PipeType, sf::Texture> mObsTextureMap = {
         {Obstacle::NINV, sf::Texture()},
         {Obstacle::INV, sf::Texture()}};
 

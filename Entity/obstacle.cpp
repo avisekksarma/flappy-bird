@@ -5,16 +5,17 @@ using namespace std;
 
 Obstacle::Obstacle(const sf::Vector2u &windowSize):mWindowSize(windowSize)
 {
-    if (!mObsTexture[NINV].loadFromFile("./Assets/sprites/pipe-green.png"))
+    if (!mObsTextureMap[NINV].loadFromFile("./Assets/sprites/pipe-green.png"))
     {
         //error
         exit(0);
     }
-    if (!mObsTexture[INV].loadFromFile("./Assets/sprites/pipe-green-inverted.png"))
+    if (!mObsTextureMap[INV].loadFromFile("./Assets/sprites/pipe-green-inverted.png"))
     {
         //error
         exit(0);
     }
+    cout<<"obstacle.cpp - here"<<endl;
 
 }
 
@@ -42,24 +43,26 @@ void Obstacle::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 void Obstacle::createNewObstacle(float baseHeight)
 {
+    // 0 = non-inverted, 1 = inverted.
     std::vector<sf::Sprite> obs(2);
     // range for the height of obstacle.
-    sf::Vector2f range1(mWindowSize.y / 2.0 + 20, mWindowSize.y / 2.0 + 50);
-    sf::Vector2f range2(mWindowSize.y / 2.0 - 20, mWindowSize.y / 2.0 - 50);
+    sf::Vector2f range1(mWindowSize.y / 2.0 + 80, mWindowSize.y / 2.0 + 180);
+    sf::Vector2f range2(mWindowSize.y / 2.0 - 80, mWindowSize.y / 2.0 - 180);
 
     std::vector<sf::Vector2f> ranges{range1,range2};
-    obs[0].setTexture(mObsTexture[NINV]);
-    obs[1].setTexture(mObsTexture[INV]);
+    obs[0].setTexture(mObsTextureMap[NINV]);
+    obs[1].setTexture(mObsTextureMap[INV]);
 
-    obs[2].setOrigin(0,0);
+    obs[1].setOrigin(0,mObsTextureMap[INV].getSize().y);
 
     for (int i = 0; i < obs.size(); ++i)
     {
         //FIXME: 100 should be deleted.
-        obs[i].setPosition(mWindowSize.x - 100, Random::get(ranges[i].x, ranges[i].y));
+        obs[i].setPosition(mWindowSize.x - 200, Random::get(ranges[i].x, ranges[i].y));
+        obs[i].setScale(2.0f,1.0f);
     }
     
-    obs[1].setTextureRect(sf::IntRect(0, 0, mObsTexture[NINV].getSize().x, mWindowSize.y - obs[1].getPosition().y - baseHeight));
+    obs[0].setTextureRect(sf::IntRect(0, 0, mObsTextureMap[NINV].getSize().x, mWindowSize.y - obs[0].getPosition().y - baseHeight));
 
     // obs[2].setTextureRect(sf::IntRect(0, 0, mObsTexture.getSize().x, windowSize.y / 2.0 - delta));
 
