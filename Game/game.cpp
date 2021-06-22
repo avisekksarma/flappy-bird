@@ -23,7 +23,9 @@ void Game::processEvents()
             mWindow.close();
     }
 }
-void Game::update(float dt) {}
+void Game::update(float dt) {
+    mBg.update(dt);
+}
 void Game::render()
 {
     mWindow.clear(sf::Color::Cyan);

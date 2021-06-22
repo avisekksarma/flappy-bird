@@ -6,17 +6,22 @@
 
 using Random = effolkronium::random_static;
 
-class Obstacle :public sf::Drawable
+class Obstacle : public sf::Drawable
 {
 public:
     typedef std::vector<std::vector<sf::Sprite>> ObstacleType;
 
     Obstacle(const sf::Vector2u &windowSize);
     ~Obstacle();
-    //TODO: to be tested.
-    void updateObs(float dt,float baseHeight);
-    void createNewObstacle(float baseHeight);
+    // updates position of obstacle &
+    // makes new obstacle &
+    // deletes obstacles out of screen
+    void updateObs(float dt, float baseHeight);
+
     ObstacleType getObstacles() const;
+
+private:
+    void createNewObstacle(float baseHeight);
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 private:
@@ -35,15 +40,15 @@ private:
     ObstacleType mObstacles;
 
     // logic part
+    bool mIsThisInitialTime = true;
     const float mInitialWaitingTime = 3.0f; // 3 seconds
-    float mGenDuration = 2.0f;              // 2 seconds initially, this will change
-    float mSpeed = 70.0f;                   // i.e 70px/seconds of velocity/speed.
+    float mGenDuration = 3.6f;              // 2 seconds initially, this will   change
+    float mSpeed = 100.0f;                   // i.e 70px/seconds of velocity/speed.
     float mCurrDuration = 0.0f;
 
-    // essential data
+    // other essential data
     const sf::Vector2u &mWindowSize;
     float baseHeight;
-
 };
 
 #endif

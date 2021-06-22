@@ -16,6 +16,7 @@ public:
     // DEPRECATED
     std::vector<sf::Sprite> getBackground();
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+    void update(float dt);
 
     enum BGType
     {
@@ -25,10 +26,12 @@ public:
     };
 
 private:
+    // private member funcs
     void loadTextures();
-    void makeSprites(const sf::Vector2u &windowSize);
+    void makeSprites();
 
 private:
+    // private data members
     std::map<BGType, std::string> mFileNameMap = {{DAY_BG, "./Assets/sprites/background-day.png"}, {NIGHT_BG, "./Assets/sprites/background-night.png"}, {BASE, "./Assets/sprites/base.png"}};
 
     sf::Sprite mCurrBGSprite; // either day or night
@@ -36,6 +39,7 @@ private:
     std::map<BGType, sf::Sprite> mSpriteMap;
 
     const sf::Vector2u &mWindowSize;
+    float mBaseMovingSpeed = 300.0f;  // i.e 80px/seconds
 
     Obstacle mObs;
 };

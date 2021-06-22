@@ -3,13 +3,12 @@
 #include <utility>
 
 Background::Background(const sf::Vector2u &windowSize)
-:mWindowSize(windowSize),
- mObs(windowSize)
- {
+    : mWindowSize(windowSize),
+      mObs(windowSize)
+{
     loadTextures();
-    makeSprites(mWindowSize);
+    makeSprites();
     mCurrBGSprite = mSpriteMap[NIGHT_BG];
-    mObs.createNewObstacle(mTextureMap[BASE].getSize().y);
 }
 
 Background::~Background() {}
@@ -62,19 +61,9 @@ void Background::loadTextures()
     {
         mTextureMap[BASE].setSmooth(true);
     }
-
-    // if (!mTextureMap[OBSTACLE].loadFromFile(mFileNameMap[OBSTACLE]))
-    // {
-    //     std::cout << "Error loading the obstacle bg texture." << std::endl;
-    //     exit(0);
-    // }
-    // else
-    // {
-    //     mTextureMap[OBSTACLE].setSmooth(true);
-    // }
 }
 
-void Background::makeSprites(const sf::Vector2u &mWindowSize)
+void Background::makeSprites()
 {
     mSpriteMap.insert(std::make_pair(DAY_BG, sf::Sprite()));
     mSpriteMap.insert(std::make_pair(NIGHT_BG, sf::Sprite()));
@@ -89,14 +78,25 @@ void Background::makeSprites(const sf::Vector2u &mWindowSize)
 
     mSpriteMap[BASE].setTexture(mTextureMap[BASE]);
     mSpriteMap[BASE].setPosition(0, mTextureMap[DAY_BG].getSize().y * mSpriteMap[DAY_BG].getScale().y);
-    mSpriteMap[BASE].setScale(float(mWindowSize.x) / mTextureMap[BASE].getSize().x, 1.0f);
-
+    //FIXME: the 50 is a magic number in following two statements.
+    mSpriteMap[BASE].setTextureRect(sf::IntRect(0, 0, 300, mTextureMap[BASE].getSize().y));
+    mSpriteMap[BASE].setScale(2 * float(mWindowSize.x) / 300, 1.0f);
 }
 
 void Background::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     target.draw(mSpriteMap.at(DAY_BG), states);
     target.draw(mSpriteMap.at(BASE), states);
-    target.draw(mObs,states);
-    
+    target.draw(mObs, states);
+}
+
+void Background::update(float dt)
+{
+    mObs.updateObs(dt,mTextureMap[BASE].getSize().y);
+    mSpriteMap[BASE].move(-mBaseMovingSpeed * dt, 0);
+    //TODO: a fake scrolling infitely part, i may change to standard practice later.
+    if (mSpriteMap[BASE].getPosition().x <= float(mWindowSize.x)*(-1.0f))
+    {
+        mSpriteMap[BASE].setPosition(0, mTextureMap[DAY_BG].getSize().y * mSpriteMap[DAY_BG].getScale().y);
+    }
 }
