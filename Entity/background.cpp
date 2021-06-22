@@ -2,11 +2,14 @@
 #include <iostream>
 #include <utility>
 
-Background::Background(const sf::Vector2u &mWindowSize)
-{
+Background::Background(const sf::Vector2u &windowSize)
+:mWindowSize(windowSize)
+//  mObs(windowSize)
+ {
     loadTextures();
     makeSprites(mWindowSize);
     mCurrBGSprite = mSpriteMap[NIGHT_BG];
+    // mObs.createNewObstacle(mTextureMap[BASE].getSize().y);
 }
 
 Background::~Background() {}
@@ -26,7 +29,7 @@ void Background::loadTextures()
     mTextureMap.insert(std::make_pair(DAY_BG, sf::Texture()));
     mTextureMap.insert(std::make_pair(NIGHT_BG, sf::Texture()));
     mTextureMap.insert(std::make_pair(BASE, sf::Texture()));
-    mTextureMap.insert(std::make_pair(OBSTACLE, sf::Texture()));
+    // mTextureMap.insert(std::make_pair(OBSTACLE, sf::Texture()));
 
     if (!mTextureMap[DAY_BG].loadFromFile(mFileNameMap[DAY_BG]))
     {
@@ -60,15 +63,15 @@ void Background::loadTextures()
         mTextureMap[BASE].setSmooth(true);
     }
 
-    if (!mTextureMap[OBSTACLE].loadFromFile(mFileNameMap[OBSTACLE]))
-    {
-        std::cout << "Error loading the obstacle bg texture." << std::endl;
-        exit(0);
-    }
-    else
-    {
-        mTextureMap[OBSTACLE].setSmooth(true);
-    }
+    // if (!mTextureMap[OBSTACLE].loadFromFile(mFileNameMap[OBSTACLE]))
+    // {
+    //     std::cout << "Error loading the obstacle bg texture." << std::endl;
+    //     exit(0);
+    // }
+    // else
+    // {
+    //     mTextureMap[OBSTACLE].setSmooth(true);
+    // }
 }
 
 void Background::makeSprites(const sf::Vector2u &mWindowSize)
@@ -94,4 +97,6 @@ void Background::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     target.draw(mSpriteMap.at(DAY_BG), states);
     target.draw(mSpriteMap.at(BASE), states);
+    // target.draw(mObs,states);
+    
 }

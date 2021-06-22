@@ -8,8 +8,8 @@ ENTITY_FOLDER=./Entity
 FLAGS="-std=c++11"
 SFML_FLAGS=-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
-$(EXEC): main.o game.o player.o background.o
-	$(CC) main.o game.o player.o background.o $(FLAGS) $(SFML_FLAGS) -g -o $(EXEC) 
+$(EXEC): main.o game.o player.o background.o obstacle.o
+	$(CC) main.o game.o player.o background.o obstacle.o $(FLAGS) $(SFML_FLAGS) -g -o $(EXEC) 
 
 main.o: main.cpp
 	$(CC) $(FLAGS) -c -g main.cpp
@@ -22,6 +22,9 @@ player.o: $(PLAYER_FOLDER)/player.cpp
 
 background.o: $(ENTITY_FOLDER)/background.cpp
 	$(CC) $(FLAGS) -c -g $(ENTITY_FOLDER)/background.cpp
+
+obstacle.o: $(ENTITY_FOLDER)/obstacle.cpp
+	$(CC) $(FLAGS) -c -g $(ENTITY_FOLDER)/obstacle.cpp
 
 clean:
 	rm *.o $(EXEC)
