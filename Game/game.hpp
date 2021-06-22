@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "../Entity/background.hpp"
+#include "../Player/player.hpp"
 
 // TODO: Idk of best design practice much esp. in sfml,
 // but definitely i will follow oop : four pillars
@@ -23,6 +24,7 @@ private:
     const sf::Vector2u mWindowSize;
     sf::RenderWindow mWindow;
     Background mBg;
+    Player mBird;
 
 };
 

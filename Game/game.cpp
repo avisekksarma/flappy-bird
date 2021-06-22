@@ -1,6 +1,6 @@
 #include "game.hpp"
 
-Game::Game() : mWindowSize(1000, 800), mWindow(sf::VideoMode(mWindowSize.x, mWindowSize.y), "Flappy-Bird"),mBg(mWindowSize){}
+Game::Game() : mWindowSize(1000, 800), mWindow(sf::VideoMode(mWindowSize.x, mWindowSize.y), "Flappy-Bird"),mBg(mWindowSize),mBird(mWindowSize){}
 Game::~Game() {}
 void Game::run()
 {
@@ -25,10 +25,12 @@ void Game::processEvents()
 }
 void Game::update(float dt) {
     mBg.update(dt);
+    mBird.update(dt);
 }
 void Game::render()
 {
     mWindow.clear(sf::Color::Cyan);
     mWindow.draw(mBg);
+    mWindow.draw(mBird.getSprite());
     mWindow.display();
 }
