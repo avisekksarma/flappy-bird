@@ -1,6 +1,6 @@
 #include "game.hpp"
 
-Game::Game() : mWindowSize(1000, 800), mWindow(sf::VideoMode(mWindowSize.x, mWindowSize.y), "Flappy-Bird"),mBg(mWindowSize),mBird(mWindowSize){}
+Game::Game() : mWindowSize(1000, 800), mWindow(sf::VideoMode(mWindowSize.x, mWindowSize.y), "Flappy-Bird"), mBg(mWindowSize), mBird(mWindowSize) {}
 Game::~Game() {}
 void Game::run()
 {
@@ -20,12 +20,23 @@ void Game::processEvents()
     while (mWindow.pollEvent(event))
     {
         if (event.type == sf::Event::Closed)
+        {
             mWindow.close();
+        }
+        else if (event.type == sf::Event::MouseButtonPressed)
+        {
+            if (event.mouseButton.button == sf::Mouse::Left)
+            {
+                mBird.handleInput();
+            }
+        }
     }
 }
-void Game::update(float dt) {
+
+void Game::update(float dt)
+{
     mBg.update(dt);
-    mBird.update(dt);
+    mBird.update(dt,mBg.getObs().getObstacles(),mBg.getTextures()[Background::BASE].getSize().y);
 }
 void Game::render()
 {

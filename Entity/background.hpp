@@ -11,6 +11,14 @@
 class Background : public sf::Drawable
 {
 public:
+    enum BGType
+    {
+        DAY_BG,
+        NIGHT_BG,
+        BASE
+    };
+
+public:
     Background(const sf::Vector2u &windowSize);
     ~Background();
     // DEPRECATED
@@ -18,12 +26,15 @@ public:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;
     void update(float dt);
 
-    enum BGType
+    Obstacle getObs() const
     {
-        DAY_BG,
-        NIGHT_BG,
-        BASE
-    };
+        return mObs;
+    }
+
+    std::map<BGType, sf::Texture> getTextures() const
+    {
+        return mTextureMap;
+    }
 
 private:
     // private member funcs
@@ -39,7 +50,7 @@ private:
     std::map<BGType, sf::Sprite> mSpriteMap;
 
     const sf::Vector2u &mWindowSize;
-    float mBaseMovingSpeed = 300.0f;  // i.e 80px/seconds
+    float mBaseMovingSpeed = 300.0f; // i.e 80px/seconds
 
     Obstacle mObs;
 };
