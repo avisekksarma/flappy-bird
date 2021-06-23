@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "../Entity/background.hpp"
 #include "../Player/player.hpp"
+#include "menuScreen.hpp"
 
 // TODO: Idk of best design practice much esp. in sfml,
 // but definitely i will follow oop : four pillars
@@ -23,6 +24,8 @@ private:
 private:
     const sf::Vector2u mWindowSize;
     sf::RenderWindow mWindow;
+    bool mIsThisMenuScreen = true;
+    MenuScreen mMenu;
     Background mBg;
     Player mBird;
 

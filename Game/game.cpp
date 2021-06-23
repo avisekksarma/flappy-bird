@@ -1,9 +1,11 @@
 #include "game.hpp"
 
-Game::Game() : mWindowSize(1000, 800), mWindow(sf::VideoMode(mWindowSize.x, mWindowSize.y), "Flappy-Bird"), mBg(mWindowSize), mBird(mWindowSize) {}
+Game::Game() : mWindowSize(1000, 800), mWindow(sf::VideoMode(mWindowSize.x, mWindowSize.y), "Flappy-Bird"), mBg(mWindowSize), mBird(mWindowSize), mMenu(mWindowSize, mWindow) {}
 Game::~Game() {}
 void Game::run()
 {
+    if (mIsThisMenuScreen)
+        mMenu.run();
     sf::Clock clock;
     while (mWindow.isOpen())
     {
@@ -36,7 +38,7 @@ void Game::processEvents()
 void Game::update(float dt)
 {
     mBg.update(dt);
-    mBird.update(dt,mBg.getObs().getObstacles(),mBg.getTextures()[Background::BASE].getSize().y);
+    mBird.update(dt, mBg.getObs().getObstacles(), mBg.getTextures()[Background::BASE].getSize().y);
 }
 void Game::render()
 {
