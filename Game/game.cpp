@@ -1,6 +1,7 @@
 #include "game.hpp"
 
-Game::Game() : mWindowSize(1000, 800), mWindow(sf::VideoMode(mWindowSize.x, mWindowSize.y), "Flappy-Bird"), mBg(mWindowSize), mBird(mWindowSize), mMenu(mWindowSize, mWindow) {}
+Game::Game() : mWindowSize(1000, 800), mWindow(sf::VideoMode(mWindowSize.x, mWindowSize.y), "Flappy-Bird"), mBg(mWindowSize), mBird(mWindowSize), mMenu(mWindowSize, mWindow), mOver(mWindowSize, mWindow) {}
+
 Game::~Game() {}
 void Game::run()
 {
@@ -39,6 +40,10 @@ void Game::update(float dt)
 {
     mBg.update(dt);
     mBird.update(dt, mBg.getObs().getObstacles(), mBg.getTextures()[Background::BASE].getSize().y);
+    if (mBird.hasBirdCollided(mBg.getObs().getObstacles(), mBg.getTextures()[Background::BASE].getSize().y))
+    {
+        mOver.run();
+    }
 }
 void Game::render()
 {

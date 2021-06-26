@@ -17,7 +17,6 @@ public:
 
     sf::Sprite getSprite() const;
 
-private:
     bool hasBirdCollided(const Obstacle::ObstacleType & obs,float baseHeight);
 
 private:

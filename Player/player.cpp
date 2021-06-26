@@ -44,7 +44,7 @@ void Player::update(float dt,const Obstacle::ObstacleType & obs,float baseHeight
     mSprite.move(0, mVelocity * dt);
 
     //collision checking part;
-    hasBirdCollided(obs,baseHeight);
+    // hasBirdCollided(obs,baseHeight);
 }
 
 sf::Sprite Player::getSprite() const
