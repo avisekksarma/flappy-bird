@@ -37,7 +37,7 @@ private:
     const sf::Vector2u &mWindowSize;
 
     //animation data members
-    const float mAnimDuration = 0.1f; // time(secs) before showing another frame.
+    const float mAnimDuration = 0.05f; // time(secs) before showing another frame.
     float mCurrDuration = 0.0f;
     const int mFrameCount = 3;
     int mCurrentFrame = 0; // 0,1,2,1,0,1,2 is the pattern of changing this.
@@ -46,7 +46,7 @@ private:
 
     // jumping and falling part
     float mVelocity = 0.0f;
-    float mAccln = 180.0f;
+    float mAccln = 130.0f;
 };
 
 #endif

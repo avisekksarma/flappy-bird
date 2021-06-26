@@ -86,16 +86,16 @@ void Background::makeSprites()
 void Background::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     target.draw(mSpriteMap.at(DAY_BG), states);
-    target.draw(mSpriteMap.at(BASE), states);
     target.draw(mObs, states);
+    target.draw(mSpriteMap.at(BASE), states);
 }
 
 void Background::update(float dt)
 {
-    mObs.updateObs(dt,mTextureMap[BASE].getSize().y);
+    mObs.updateObs(dt, mTextureMap[BASE].getSize().y);
     mSpriteMap[BASE].move(-mBaseMovingSpeed * dt, 0);
     //TODO: a fake scrolling infitely part, i may change to standard practice later.
-    if (mSpriteMap[BASE].getPosition().x <= float(mWindowSize.x)*(-1.0f))
+    if (mSpriteMap[BASE].getPosition().x <= float(mWindowSize.x) * (-1.0f))
     {
         mSpriteMap[BASE].setPosition(0, mTextureMap[DAY_BG].getSize().y * mSpriteMap[DAY_BG].getScale().y);
     }

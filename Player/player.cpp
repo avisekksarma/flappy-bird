@@ -56,7 +56,7 @@ sf::Sprite Player::getSprite() const
 // obviously input is just click or up arrow
 void Player::handleInput()
 {
-    mVelocity = -185.0f;
+    mVelocity = -175.0f;
 }
 
 bool Player::hasBirdCollided(const Obstacle::ObstacleType &obs, float baseHeight)
@@ -73,6 +73,9 @@ bool Player::hasBirdCollided(const Obstacle::ObstacleType &obs, float baseHeight
     }
     if (this->getSprite().getPosition().y + getSprite().getGlobalBounds().height > mWindowSize.y - baseHeight)
     {
+        return true;
+    }
+    if(this->getSprite().getPosition().y < 0){
         return true;
     }
     return false;

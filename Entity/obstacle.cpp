@@ -43,7 +43,7 @@ void Obstacle::updateObs(float dt, float baseHeight)
     // update the position of obstacles or delete if out of screen
     for (int i = 0; i < mObstacles.size(); i++)
     {
-        if (mObstacles[i][0].sprite.getPosition().x + mObsTextureMap[NINV].getSize().x * mObstacles[i][0].sprite.getScale().x  <= 0)
+        if (mObstacles[i][0].sprite.getPosition().x + mObsTextureMap[NINV].getSize().x * mObstacles[i][0].sprite.getScale().x <= 0)
         {
             // case when obstacle goes out of screen after moving
             mObstacles.erase(mObstacles.begin() + i);
@@ -54,6 +54,11 @@ void Obstacle::updateObs(float dt, float baseHeight)
             mObstacles[i][1].sprite.move(-mSpeed * dt, 0.0f);
         }
     }
+
+    // DIFFICULTY INCREASING ZONE.
+    mGenDuration -= mGenDuration * 3 * dt;
+    mSpeed += mSpeed * 5 * dt;
+    
 }
 
 Obstacle::~Obstacle() {}
@@ -82,19 +87,43 @@ void Obstacle::createNewObstacle(float baseHeight)
 
     for (int i = 0; i < obs.size(); ++i)
     {
-        //FIXME: 100 should be deleted.
         obs[i].sprite.setPosition(mWindowSize.x, Random::get(ranges[i].x, ranges[i].y));
         obs[i].sprite.setScale(2.0f, 1.0f);
     }
+    //randomly overriding the position of one of the pipes by fixing other
+    // just a block scope made
 
-    obs[0].sprite.setTextureRect(sf::IntRect(0, 0, mObsTextureMap[NINV].getSize().x, mWindowSize.y - obs[0].sprite.getPosition().y - baseHeight));
+    int num = Random::get({0, 1});
+    if (num == 1)
+    {
+        // overriding the inverted pipe position to be according to the pipe height
+        obs[1].sprite.setPosition(mWindowSize.x, obs[0].sprite.getPosition().y - pipeHeight);
 
-    // obs[2].setTextureRect(sf::IntRect(0, 0, mObsTexture.getSize().x, windowSize.y / 2.0 - delta));
+        if (obs[1].sprite.getPosition().y > mObsTextureMap[INV].getSize().y)
+        {
+            // scale inverted pipe in the y direction so that the upper part is not
+            // shown empty as the pipe is lower in position than its size
+            obs[1].sprite.scale(1.0f, obs[1].sprite.getPosition().y / mObsTextureMap[INV].getSize().y);
+        }
+    }
+    else
+    {
+        // overriding the non-inverted pipe position to be according to the pipe height
+        obs[0].sprite.setPosition(mWindowSize.x, obs[1].sprite.getPosition().y + pipeHeight);
+        if (mWindowSize.y - obs[0].sprite.getPosition().y > mObsTextureMap[NINV].getSize().y + baseHeight)
+        {
+            // scale inverted pipe in the y direction so that the upper part is not
+            // shown empty as the pipe is lower in position than its size
+            obs[0].sprite.scale(1.0f, (mWindowSize.y - obs[0].sprite.getPosition().y - baseHeight) / mObsTextureMap[NINV].getSize().y);
+        }
+    }
+
+    // obs[0].sprite.setTextureRect(sf::IntRect(0, 0, mObsTextureMap[NINV].getSize().x, mWindowSize.y - obs[0].sprite.getPosition().y - baseHeight));
 
     mObstacles.push_back(obs);
 }
 
-Obstacle::ObstacleType & Obstacle::getObstacles()
+Obstacle::ObstacleType &Obstacle::getObstacles()
 {
     return mObstacles;
 }

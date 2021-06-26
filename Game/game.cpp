@@ -12,6 +12,7 @@ void Game::run()
     // code execution reaches here means the user is now in game,
     // i.e. clicked on menu screen.
     sf::Clock clock;
+    mWindow.setFramerateLimit(60);
     while (mWindow.isOpen())
     {
         processEvents();
