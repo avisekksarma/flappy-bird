@@ -42,6 +42,11 @@ public:
             mSound[FLY] = sf::Sound();
             mSound[FLY].setBuffer(mSoundBuffer[FLY]);
         }
+
+        if (!mBgMusic.openFromFile("./Assets/audio/bg-music.wav"))
+           {
+               exit(0);
+           }
     }
 
 public:
@@ -53,6 +58,7 @@ public:
         FLY
     };
     std::map<AudioManager::SoundType, sf::Sound> mSound;
+    sf::Music mBgMusic;
 
 private:
     std::map<AudioManager::SoundType, sf::SoundBuffer> mSoundBuffer;

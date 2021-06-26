@@ -56,7 +56,7 @@ private:
     float mGenDuration = 2.8f;              // 2 seconds initially, this will   change
     float mSpeed = 150.0f;                  // i.e 70px/seconds of velocity/speed.
     float mCurrDuration = 0.0f;
-    const float pipeHeight = 170.0f;
+    float pipeHeight = 195.0f;
 
     // other essential data
     const sf::Vector2u &mWindowSize;

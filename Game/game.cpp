@@ -13,6 +13,8 @@ void Game::run()
     // i.e. clicked on menu screen.
     sf::Clock clock;
     mWindow.setFramerateLimit(60);
+    mAudio.mBgMusic.play();
+    mAudio.mBgMusic.setLoop(true);
     while (mWindow.isOpen())
     {
         processEvents();
