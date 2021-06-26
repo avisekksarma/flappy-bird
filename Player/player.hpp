@@ -18,7 +18,7 @@ public:
     sf::Sprite getSprite() const;
 
     bool hasBirdCollided(const Obstacle::ObstacleType & obs,float baseHeight);
-    bool shouldScoreIncrease(const Obstacle::ObstacleType & obs,float baseHeight);
+    bool shouldScoreIncrease(Obstacle::ObstacleType & obs,float baseHeight);
 
 private:
     enum Position

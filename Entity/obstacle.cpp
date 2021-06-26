@@ -43,15 +43,15 @@ void Obstacle::updateObs(float dt, float baseHeight)
     // update the position of obstacles or delete if out of screen
     for (int i = 0; i < mObstacles.size(); i++)
     {
-        if (mObstacles[i][0].getPosition().x + mObsTextureMap[NINV].getSize().x * mObstacles[i][0].getScale().x  <= 0)
+        if (mObstacles[i][0].sprite.getPosition().x + mObsTextureMap[NINV].getSize().x * mObstacles[i][0].sprite.getScale().x  <= 0)
         {
             // case when obstacle goes out of screen after moving
             mObstacles.erase(mObstacles.begin() + i);
         }
         else
         {
-            mObstacles[i][0].move(-mSpeed * dt, 0.0f);
-            mObstacles[i][1].move(-mSpeed * dt, 0.0f);
+            mObstacles[i][0].sprite.move(-mSpeed * dt, 0.0f);
+            mObstacles[i][1].sprite.move(-mSpeed * dt, 0.0f);
         }
     }
 }
@@ -62,40 +62,39 @@ void Obstacle::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     for (int i = 0; i < mObstacles.size(); i++)
     {
-        target.draw(mObstacles[i][0], states);
-        target.draw(mObstacles[i][1], states);
+        target.draw(mObstacles[i][0].sprite, states);
+        target.draw(mObstacles[i][1].sprite, states);
     }
 }
 
 void Obstacle::createNewObstacle(float baseHeight)
 {
     // 0 = non-inverted, 1 = inverted.
-    std::vector<sf::Sprite> obs(2);
+    std::vector<Obstacle::Pipe> obs(2);
     // range for the height of obstacle.
     sf::Vector2f range1(mWindowSize.y / 2.0 + 80, mWindowSize.y / 2.0 + 180);
     sf::Vector2f range2(mWindowSize.y / 2.0 - 80, mWindowSize.y / 2.0 - 180);
 
     std::vector<sf::Vector2f> ranges{range1, range2};
-    obs[0].setTexture(mObsTextureMap[NINV]);
-    obs[1].setTexture(mObsTextureMap[INV]);
-
-    obs[1].setOrigin(0, mObsTextureMap[INV].getSize().y);
+    obs[0].sprite.setTexture(mObsTextureMap[NINV]);
+    obs[1].sprite.setTexture(mObsTextureMap[INV]);
+    obs[1].sprite.setOrigin(0, mObsTextureMap[INV].getSize().y);
 
     for (int i = 0; i < obs.size(); ++i)
     {
         //FIXME: 100 should be deleted.
-        obs[i].setPosition(mWindowSize.x, Random::get(ranges[i].x, ranges[i].y));
-        obs[i].setScale(2.0f, 1.0f);
+        obs[i].sprite.setPosition(mWindowSize.x, Random::get(ranges[i].x, ranges[i].y));
+        obs[i].sprite.setScale(2.0f, 1.0f);
     }
 
-    obs[0].setTextureRect(sf::IntRect(0, 0, mObsTextureMap[NINV].getSize().x, mWindowSize.y - obs[0].getPosition().y - baseHeight));
+    obs[0].sprite.setTextureRect(sf::IntRect(0, 0, mObsTextureMap[NINV].getSize().x, mWindowSize.y - obs[0].sprite.getPosition().y - baseHeight));
 
     // obs[2].setTextureRect(sf::IntRect(0, 0, mObsTexture.getSize().x, windowSize.y / 2.0 - delta));
 
     mObstacles.push_back(obs);
 }
 
-Obstacle::ObstacleType Obstacle::getObstacles() const
+Obstacle::ObstacleType & Obstacle::getObstacles()
 {
     return mObstacles;
 }

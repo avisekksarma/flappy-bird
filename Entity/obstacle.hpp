@@ -9,7 +9,18 @@ using Random = effolkronium::random_static;
 class Obstacle : public sf::Drawable
 {
 public:
-    typedef std::vector<std::vector<sf::Sprite>> ObstacleType;
+    struct Pipe
+    {
+        sf::Sprite sprite;
+        // the position to the bird
+        enum Position
+        {
+            LEFT,
+            RIGHT
+        };
+        Position pos = Pipe::RIGHT;
+    };
+    typedef std::vector<std::vector<Pipe>> ObstacleType;
 
     Obstacle(const sf::Vector2u &windowSize);
     ~Obstacle();
@@ -18,18 +29,13 @@ public:
     // deletes obstacles out of screen
     void updateObs(float dt, float baseHeight);
 
-    ObstacleType getObstacles() const;
+    ObstacleType & getObstacles();
 
 private:
     void createNewObstacle(float baseHeight);
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 private:
-    // struct Pipe{
-    //     sf::Sprite s;
-
-    // };
-
     // data storage part
     // ninv = non-inverted, inv = inverted
     enum PipeType
@@ -48,7 +54,7 @@ private:
     bool mIsThisInitialTime = true;
     const float mInitialWaitingTime = 3.0f; // 3 seconds
     float mGenDuration = 3.6f;              // 2 seconds initially, this will   change
-    float mSpeed = 100.0f;                   // i.e 70px/seconds of velocity/speed.
+    float mSpeed = 100.0f;                  // i.e 70px/seconds of velocity/speed.
     float mCurrDuration = 0.0f;
 
     // other essential data

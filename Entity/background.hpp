@@ -26,7 +26,7 @@ public:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;
     void update(float dt);
 
-    Obstacle getObs() const
+    Obstacle& getObs()
     {
         return mObs;
     }

@@ -38,11 +38,13 @@ private:
         std::map<int, sf::Sprite> spriteMap;
 
     public:
-        void loadTextures();
+        Score();
+        // increase the score when shouldScoreIncrease of player class returns true
         void increaseScore();
         void renderScore(sf::RenderWindow &window, const sf::Vector2u windowSize);
 
     private:
+        void loadTextures();
         void makeSprites();
     };
 

@@ -1,6 +1,8 @@
 #include "player.hpp"
 #include <iostream>
 
+using namespace std;
+
 Player::Player(const sf::Vector2u &windowSize) : mWindowSize(windowSize), mSizePerFrame(34.0f, 24.0f)
 {
     if (!mTexture.loadFromFile("./Assets/sprites/yellowbird.png"))
@@ -17,7 +19,7 @@ Player::Player(const sf::Vector2u &windowSize) : mWindowSize(windowSize), mSizeP
 }
 Player::~Player() {}
 
-void Player::update(float dt,const Obstacle::ObstacleType & obs,float baseHeight)
+void Player::update(float dt, const Obstacle::ObstacleType &obs, float baseHeight)
 {
     // animation part starts
     mCurrDuration += dt;
@@ -57,30 +59,44 @@ void Player::handleInput()
     mVelocity = -185.0f;
 }
 
-bool Player::hasBirdCollided(const Obstacle::ObstacleType &obs,float baseHeight)
+bool Player::hasBirdCollided(const Obstacle::ObstacleType &obs, float baseHeight)
 {
     for (int i = 0; i < obs.size(); ++i)
     {
         for (int j = 0; j < 2; ++j)
         {
-            if (obs[i][j].getGlobalBounds().intersects(this->getSprite().getGlobalBounds()))
+            if (obs[i][j].sprite.getGlobalBounds().intersects(this->getSprite().getGlobalBounds()))
             {
                 return true;
             }
         }
     }
-    if(this->getSprite().getPosition().y + getSprite().getGlobalBounds().height > mWindowSize.y - baseHeight){
+    if (this->getSprite().getPosition().y + getSprite().getGlobalBounds().height > mWindowSize.y - baseHeight)
+    {
         return true;
     }
     return false;
-
 }
 
 // returns true if bird gets past a new obstacle.
-bool Player::shouldScoreIncrease(const Obstacle::ObstacleType & obs,float baseHeight){
-    for(int i = 0; i<obs.size();++i){
-        if(mSprite.getPosition().x > obs[i][0].getPosition().x){
-            if(!hasBirdCollided(obs,baseHeight)){
+bool Player::shouldScoreIncrease(Obstacle::ObstacleType &obs, float baseHeight)
+{
+    static int checkVar = 1;
+    cout << "obs.size() = " << obs.size() << endl;
+    for (int i = 0; i < obs.size(); ++i)
+    {
+        if (obs[i][0].pos == Obstacle::Pipe::RIGHT && mSprite.getPosition().x > obs[i][0].sprite.getPosition().x)
+        {
+            if (!hasBirdCollided(obs, baseHeight))
+            {
+                cout <<checkVar<<" bird score "<< endl;
+                checkVar++;
+                // now make that pipe as left pipe so that rechecking with
+                // same pipe does not occur.
+                cout<<"obs pos= "<<obs[i][0].pos<<endl;
+                obs[i][0].pos = Obstacle::Pipe::LEFT;
+                cout<<"i= "<<i<<endl;
+                cout<<"obs pos= "<<obs[i][0].pos<<endl;
                 // score should increase
                 return true;
             }

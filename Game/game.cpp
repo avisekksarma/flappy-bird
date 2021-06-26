@@ -41,6 +41,10 @@ void Game::update(float dt)
 {
     mBg.update(dt);
     mBird.update(dt, mBg.getObs().getObstacles(), mBg.getTextures()[Background::BASE].getSize().y);
+    if(mBird.shouldScoreIncrease(mBg.getObs().getObstacles(),mBg.getTextures()[Background::BASE].getSize().y)){
+        mScore.increaseScore();
+    }
+
     if (mBird.hasBirdCollided(mBg.getObs().getObstacles(), mBg.getTextures()[Background::BASE].getSize().y))
     {
         mOver.run();
@@ -56,7 +60,14 @@ void Game::render()
     mWindow.clear(sf::Color::Cyan);
     mWindow.draw(mBg);
     mWindow.draw(mBird.getSprite());
+    mScore.renderScore(mWindow,mWindowSize);
     mWindow.display();
+}
+
+Game::Score::Score(){
+    // loads the textures, this function also calls the makesprites func.
+    loadTextures();
+    
 }
 
 void Game::Score::loadTextures()
@@ -83,15 +94,18 @@ void Game::Score::makeSprites()
 
 void Game::Score::renderScore(sf::RenderWindow &window, const sf::Vector2u windowSize)
 {
+    sf::Sprite s1,s2;
     int firstDigit, secondDigit;
     firstDigit = score / 10;
     secondDigit = score % 10;
-    spriteMap[firstDigit].setPosition(float(windowSize.x) * 0.5, float(windowSize.x) * 0.15);
-    spriteMap[secondDigit].setPosition(float(windowSize.x) * 0.5 + textureMap[firstDigit].getSize().x, float(windowSize.x) * 0.15);
+    s1 = spriteMap[firstDigit];
+    s1.setPosition(float(windowSize.x) * 0.5, float(windowSize.x) * 0.15);
+    s2 = spriteMap[secondDigit];
+    s2.setPosition(float(windowSize.x) * 0.5 + textureMap[firstDigit].getSize().x, float(windowSize.x) * 0.15);
 
     // render them
-    window.draw(spriteMap[firstDigit]);
-    window.draw(spriteMap[secondDigit]);
+    window.draw(s1);
+    window.draw(s2);
 }
 
 void Game::Score::increaseScore(){
