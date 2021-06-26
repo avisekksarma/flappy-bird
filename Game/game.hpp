@@ -29,9 +29,26 @@ private:
     GameOverScreen mOver;
     Background mBg;
     Player mBird;
+    // everything about score
+    struct Score
+    {
+    public:
+        int score = 0;
+        std::map<int, sf::Texture> textureMap;
+        std::map<int, sf::Sprite> spriteMap;
+
+    public:
+        void loadTextures();
+        void increaseScore();
+        void renderScore(sf::RenderWindow &window, const sf::Vector2u windowSize);
+
+    private:
+        void makeSprites();
+    };
 
 public:
     sf::RenderWindow mWindow;
+    Score mScore;
 };
 
 #endif

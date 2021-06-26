@@ -50,7 +50,7 @@ private:
     std::map<BGType, sf::Sprite> mSpriteMap;
 
     const sf::Vector2u &mWindowSize;
-    float mBaseMovingSpeed = 300.0f; // i.e 80px/seconds
+    float mBaseMovingSpeed = 450.0f; // i.e 80px/seconds
 
     Obstacle mObs;
 };

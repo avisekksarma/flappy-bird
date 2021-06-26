@@ -25,6 +25,11 @@ private:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 private:
+    // struct Pipe{
+    //     sf::Sprite s;
+
+    // };
+
     // data storage part
     // ninv = non-inverted, inv = inverted
     enum PipeType

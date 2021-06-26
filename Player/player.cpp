@@ -75,3 +75,16 @@ bool Player::hasBirdCollided(const Obstacle::ObstacleType &obs,float baseHeight)
     return false;
 
 }
+
+// returns true if bird gets past a new obstacle.
+bool Player::shouldScoreIncrease(const Obstacle::ObstacleType & obs,float baseHeight){
+    for(int i = 0; i<obs.size();++i){
+        if(mSprite.getPosition().x > obs[i][0].getPosition().x){
+            if(!hasBirdCollided(obs,baseHeight)){
+                // score should increase
+                return true;
+            }
+        }
+    }
+    return false;
+}
