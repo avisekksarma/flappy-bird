@@ -14,7 +14,7 @@ $(EXEC): main.o game.o player.o background.o obstacle.o
 main.o: main.cpp
 	$(CC) $(FLAGS) -c -g main.cpp
 
-game.o: $(GAME_FOLDER)/game.cpp $(GAME_FOLDER)/menuScreen.hpp $(GAME_FOLDER)/gameOverScreen.hpp $(GAME_FOLDER)/screen.hpp 
+game.o: $(GAME_FOLDER)/game.cpp $(GAME_FOLDER)/menuScreen.hpp $(GAME_FOLDER)/gameOverScreen.hpp $(GAME_FOLDER)/screen.hpp $(ENTITY_FOLDER)/audioManager.hpp
 	$(CC) $(FLAGS) -c -g $(GAME_FOLDER)/game.cpp
 
 player.o: $(PLAYER_FOLDER)/player.cpp

@@ -6,6 +6,7 @@
 #include "../Player/player.hpp"
 #include "menuScreen.hpp"
 #include "gameOverScreen.hpp"
+#include "../Entity/audioManager.hpp"
 
 // TODO: Idk of best design practice much esp. in sfml,
 // but definitely i will follow oop : four pillars
@@ -29,6 +30,7 @@ private:
     GameOverScreen mOver;
     Background mBg;
     Player mBird;
+    AudioManager mAudio;
     // everything about score
     struct Score
     {

@@ -8,6 +8,9 @@ void Game::run()
 {
     if (mIsThisMenuScreen)
         mMenu.run();
+
+    // code execution reaches here means the user is now in game,
+    // i.e. clicked on menu screen.
     sf::Clock clock;
     while (mWindow.isOpen())
     {
@@ -41,15 +44,19 @@ void Game::update(float dt)
 {
     mBg.update(dt);
     mBird.update(dt, mBg.getObs().getObstacles(), mBg.getTextures()[Background::BASE].getSize().y);
-    if(mBird.shouldScoreIncrease(mBg.getObs().getObstacles(),mBg.getTextures()[Background::BASE].getSize().y)){
+    if (mBird.shouldScoreIncrease(mBg.getObs().getObstacles(), mBg.getTextures()[Background::BASE].getSize().y))
+    {
+        // user gets past a obstacle, i.e one more point.
+        mAudio.mSound[AudioManager::POINT].play();
         mScore.increaseScore();
     }
 
     if (mBird.hasBirdCollided(mBg.getObs().getObstacles(), mBg.getTextures()[Background::BASE].getSize().y))
     {
+        mAudio.mSound[AudioManager::HIT].play();
         mOver.run();
         // code execution is here means user clicked in game over screen,
-        // since in this version there is no restart feature, so we just 
+        // since in this version there is no restart feature, so we just
         // end the game.
         mWindow.close();
         exit(0);
@@ -60,14 +67,14 @@ void Game::render()
     mWindow.clear(sf::Color::Cyan);
     mWindow.draw(mBg);
     mWindow.draw(mBird.getSprite());
-    mScore.renderScore(mWindow,mWindowSize);
+    mScore.renderScore(mWindow, mWindowSize);
     mWindow.display();
 }
 
-Game::Score::Score(){
+Game::Score::Score()
+{
     // loads the textures, this function also calls the makesprites func.
     loadTextures();
-    
 }
 
 void Game::Score::loadTextures()
@@ -94,7 +101,7 @@ void Game::Score::makeSprites()
 
 void Game::Score::renderScore(sf::RenderWindow &window, const sf::Vector2u windowSize)
 {
-    sf::Sprite s1,s2;
+    sf::Sprite s1, s2;
     int firstDigit, secondDigit;
     firstDigit = score / 10;
     secondDigit = score % 10;
@@ -108,6 +115,7 @@ void Game::Score::renderScore(sf::RenderWindow &window, const sf::Vector2u windo
     window.draw(s2);
 }
 
-void Game::Score::increaseScore(){
+void Game::Score::increaseScore()
+{
     score++;
 }
