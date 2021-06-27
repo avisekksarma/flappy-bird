@@ -8,8 +8,6 @@
 #include "gameOverScreen.hpp"
 #include "../Entity/audioManager.hpp"
 
-// TODO: Idk of best design practice much esp. in sfml,
-// but definitely i will follow oop : four pillars
 
 class Game
 {
