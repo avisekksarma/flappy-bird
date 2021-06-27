@@ -48,8 +48,12 @@ private:
     float mVelocity = 100.0f;
     float mAccln = 130.0f;
     // position of the bird ( in y only ) when clicked;
-    float PosWhenClicked;
-    float finalUpperPos;
+    float mPosWhenClicked;
+    // position of the bird ( in y only ) which is final pos
+    // it is equal to mPosWhenClicked - mJumpingHeight
+    float mFinalUpperPos;
+    // the height difference after jumping upto top point
+    float mJumpingHeight = 80.0f;
 };
 
 #endif

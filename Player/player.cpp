@@ -15,7 +15,7 @@ Player::Player(const sf::Vector2u &windowSize) : mWindowSize(windowSize), mSizeP
     // initial setup
     mSprite.setOrigin(mTexture.getSize().x/2.0,mTexture.getSize().y/2.0);
     mSprite.setTextureRect(sf::IntRect(0, 0, mSizePerFrame.x, mSizePerFrame.y));
-    mSprite.setPosition(sf::Vector2f(Random::get(float(mWindowSize.x) * 0.15f, float(mWindowSize.x) * 0.25f), mWindowSize.y / 2.0));
+    mSprite.setPosition(sf::Vector2f(Random::get(float(mWindowSize.x) * 0.3f, float(mWindowSize.x) * 0.35f), mWindowSize.y / 2.0));
     mSprite.setScale(1.3f, 1.3f);
 }
 Player::~Player() {}
@@ -43,7 +43,7 @@ void Player::update(float dt, const Obstacle::ObstacleType &obs, float baseHeigh
     // animation part ends
 
     // jumping and falling part starts
-    if (mSprite.getPosition().y <= finalUpperPos)
+    if (mSprite.getPosition().y <= mFinalUpperPos)
     {
         mVelocity = -mVelocity;
     }
@@ -76,13 +76,11 @@ sf::Sprite Player::getSprite() const
 // obviously input is just click or up arrow
 void Player::handleInput()
 {
-    PosWhenClicked = mSprite.getPosition().y;
+    mPosWhenClicked = mSprite.getPosition().y;
     //TODO: magic number place
-    finalUpperPos = PosWhenClicked - 90;
+    mFinalUpperPos = mPosWhenClicked - mJumpingHeight;
     //TODO: magic number place
     mVelocity = -250.0f;
-
-    // mSprite.move(-10,0);
 }
 
 bool Player::hasBirdCollided(const Obstacle::ObstacleType &obs, float baseHeight)
