@@ -12,7 +12,7 @@ The assets for the game are gotten from [here](https://github.com/samuelcust/fla
 
 
 The Game play is as:
-![](./Final_Images/flappy-bird-gameplay.gif)
+![](./Final_Images/flappy-bird-gameplay2.gif)
 
 #### Installation :
 
