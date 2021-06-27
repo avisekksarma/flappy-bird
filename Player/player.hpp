@@ -45,8 +45,11 @@ private:
     sf::Vector2f mSizePerFrame;
 
     // jumping and falling part
-    float mVelocity = 0.0f;
+    float mVelocity = 100.0f;
     float mAccln = 130.0f;
+    // position of the bird ( in y only ) when clicked;
+    float PosWhenClicked;
+    float finalUpperPos;
 };
 
 #endif

@@ -58,7 +58,7 @@ void Obstacle::updateObs(float dt, float baseHeight)
     // DIFFICULTY INCREASING ZONE AS USER PLAYS MORE AND MORE TIME.
     // mGenDuration -= mGenDuration * 0.0007 * dt;
     // mSpeed += mSpeed * 5 * dt;
-    // pipeHeight -= pipeHeight * dt;
+    pipeHeight -= pipeHeight * dt * dt;
 
 }
 

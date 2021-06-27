@@ -13,8 +13,9 @@ Player::Player(const sf::Vector2u &windowSize) : mWindowSize(windowSize), mSizeP
 
     mSprite.setTexture(mTexture);
     // initial setup
+    mSprite.setOrigin(mTexture.getSize().x/2.0,mTexture.getSize().y/2.0);
     mSprite.setTextureRect(sf::IntRect(0, 0, mSizePerFrame.x, mSizePerFrame.y));
-    mSprite.setPosition(sf::Vector2f(Random::get(float(mWindowSize.x) * 0.1f, float(mWindowSize.x) * 0.3f), mWindowSize.y / 2.0));
+    mSprite.setPosition(sf::Vector2f(Random::get(float(mWindowSize.x) * 0.15f, float(mWindowSize.x) * 0.25f), mWindowSize.y / 2.0));
     mSprite.setScale(1.3f, 1.3f);
 }
 Player::~Player() {}
@@ -42,11 +43,30 @@ void Player::update(float dt, const Obstacle::ObstacleType &obs, float baseHeigh
     // animation part ends
 
     // jumping and falling part starts
-    mVelocity = mVelocity + mAccln * dt;
-    mSprite.move(0, mVelocity * dt);
+    if (mSprite.getPosition().y <= finalUpperPos)
+    {
+        mVelocity = -mVelocity;
+    }
+    else
+    {
+        mVelocity = mVelocity + mAccln * dt;
+    }
 
-    //collision checking part;
-    // hasBirdCollided(obs,baseHeight);
+    mSprite.move(0, mVelocity * dt);
+    // jumping and falling part ends
+
+    // rotation part when it falls downwards
+    if (mVelocity >= 0)
+    {
+        //TODO: magic number place
+        mSprite.rotate(60 * dt);
+        
+    }
+    else if (mVelocity < 0)
+    {
+        mSprite.setRotation(0);
+    }
+    // rotation part ends
 }
 
 sf::Sprite Player::getSprite() const
@@ -56,7 +76,13 @@ sf::Sprite Player::getSprite() const
 // obviously input is just click or up arrow
 void Player::handleInput()
 {
-    mVelocity = -175.0f;
+    PosWhenClicked = mSprite.getPosition().y;
+    //TODO: magic number place
+    finalUpperPos = PosWhenClicked - 90;
+    //TODO: magic number place
+    mVelocity = -250.0f;
+
+    // mSprite.move(-10,0);
 }
 
 bool Player::hasBirdCollided(const Obstacle::ObstacleType &obs, float baseHeight)
@@ -75,7 +101,8 @@ bool Player::hasBirdCollided(const Obstacle::ObstacleType &obs, float baseHeight
     {
         return true;
     }
-    if(this->getSprite().getPosition().y < 0){
+    if (this->getSprite().getPosition().y < 0)
+    {
         return true;
     }
     return false;
@@ -84,22 +111,15 @@ bool Player::hasBirdCollided(const Obstacle::ObstacleType &obs, float baseHeight
 // returns true if bird gets past a new obstacle.
 bool Player::shouldScoreIncrease(Obstacle::ObstacleType &obs, float baseHeight)
 {
-    static int checkVar = 1;
-    cout << "obs.size() = " << obs.size() << endl;
     for (int i = 0; i < obs.size(); ++i)
     {
         if (obs[i][0].pos == Obstacle::Pipe::RIGHT && mSprite.getPosition().x > obs[i][0].sprite.getPosition().x)
         {
             if (!hasBirdCollided(obs, baseHeight))
             {
-                cout <<checkVar<<" bird score "<< endl;
-                checkVar++;
                 // now make that pipe as left pipe so that rechecking with
                 // same pipe does not occur.
-                cout<<"obs pos= "<<obs[i][0].pos<<endl;
                 obs[i][0].pos = Obstacle::Pipe::LEFT;
-                cout<<"i= "<<i<<endl;
-                cout<<"obs pos= "<<obs[i][0].pos<<endl;
                 // score should increase
                 return true;
             }
