@@ -11,7 +11,6 @@ The final image of the game is as shown below:
 The assets for the game are gotten from [here](https://github.com/samuelcust/flappy-bird-assets).
 
 
-The Game play is as:
 ![](./Final_Images/flappy-bird-gameplay2.gif)
 
 #### Installation :
